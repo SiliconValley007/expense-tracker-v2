@@ -1,0 +1,19 @@
+name: category_repository
+description: Dart package which manages the user's category.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.15.1 <3.0.0"
+
+dependencies:
+  cloud_firestore: ^3.1.6
+  firebase_auth: ^3.3.5
+  equatable: ^2.0.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
