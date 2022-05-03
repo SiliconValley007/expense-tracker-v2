@@ -1,9 +1,10 @@
-import 'package:final_year_project_v2/core/core.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../core/core.dart';
+import '../../../widgets/widgets.dart';
+import '../../screens.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({
@@ -34,14 +35,6 @@ class DrawerScreen extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                CircleAvatar(
-                  radius: _size.width * 0.07,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: const NetworkImage(
-                    'https://th.bing.com/th/id/R.b67500e782098bcbcad16dd9f2376e0b?rik=vu67XUEk6K3zAw&riu=http%3a%2f%2fwww.laaae.org%2fwp-content%2fuploads%2f2013%2f09%2fempty_profile_picture.gif&ehk=YnKc5oI3guSnLXKOp5fjIQBa0q8kMyfF3sNz8AtS%2fM4%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
-                  ),
-                ),
-                const SizedBox(width: 20),
                 Text(
                   state.userProfile.name,
                   style: const TextStyle(

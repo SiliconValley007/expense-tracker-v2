@@ -1,13 +1,14 @@
 import 'package:category_repository/category_repository.dart';
 import 'package:expense_repository/expense_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/router/app_router.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:income_repository/income_repository.dart';
 import 'package:user_repository/user_repository.dart';
+
+import 'constants/constants.dart';
+import 'router/app_router.dart';
+import 'screens/screens.dart';
 
 class App extends StatefulWidget {
   const App({
@@ -79,9 +80,10 @@ class _AppState extends State<App> {
               previous.themeMode != current.themeMode,
           builder: (context, state) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               themeMode: state.themeMode,
-              theme: light,
-              darkTheme: dark,
+              theme: light.copyWith(textTheme: appTextTheme(context)),
+              darkTheme: dark.copyWith(textTheme: appTextTheme(context)),
               home: const HomeScreen(),
               onGenerateRoute: AppRouter.onGenerateRoute,
             );

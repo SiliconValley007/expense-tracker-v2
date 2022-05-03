@@ -1,11 +1,12 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
+
+import '../../../../constants/constants.dart';
 
 part 'signup_state.dart';
 

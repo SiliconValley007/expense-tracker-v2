@@ -1,10 +1,7 @@
-import 'package:category_repository/category_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../screens.dart';
+import '../../../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nil/nil.dart';
 
 class IncomeSearchList extends StatefulWidget {
   const IncomeSearchList({Key? key}) : super(key: key);
@@ -17,18 +14,12 @@ class _IncomeSearchListState extends State<IncomeSearchList> {
   late final TextEditingController _searchController;
   late final ValueNotifier<bool> _isSearchEmpty;
 
-  late final ValueNotifier<Category> _categoryFilter;
-
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
     _isSearchEmpty = ValueNotifier<bool>(true);
-    _categoryFilter = ValueNotifier<Category>(Category.empty);
     _searchController.addListener(() => _searchController.text.isEmpty
-        ? _isSearchEmpty.value = true
-        : _isSearchEmpty.value = false);
-    _categoryFilter.addListener(() => _categoryFilter.value.isEmpty
         ? _isSearchEmpty.value = true
         : _isSearchEmpty.value = false);
   }
@@ -37,7 +28,6 @@ class _IncomeSearchListState extends State<IncomeSearchList> {
   void dispose() {
     _searchController.dispose();
     _isSearchEmpty.dispose();
-    _categoryFilter.dispose();
     super.dispose();
   }
 
@@ -65,47 +55,16 @@ class _IncomeSearchListState extends State<IncomeSearchList> {
             onPressed: () => Navigator.maybePop(context),
             icon: const Icon(Icons.arrow_back_rounded),
           ),
-          title: ValueListenableBuilder<Category>(
-            valueListenable: _categoryFilter,
-            builder: (context, value, child) => Row(
-              children: [
-                if (value.isNotEmpty)
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                      vertical: 10.0,
-                    ),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Color(value.color),
-                    ),
-                    child: Text(
-                      value.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    enabled: value.isEmpty,
-                    onChanged: (query) =>
-                        _incomeSearchCubit.onSearchChanged(query: query),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search your incomes...',
-                      hintStyle: TextStyle(
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          title: TextField(
+            controller: _searchController,
+            onChanged: (query) =>
+                _incomeSearchCubit.onSearchChanged(query: query),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Search your incomes...',
+              hintStyle: TextStyle(
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
           ),
           actions: [
@@ -116,45 +75,11 @@ class _IncomeSearchListState extends State<IncomeSearchList> {
                   : IconButton(
                       onPressed: () {
                         _searchController.clear();
-                        _categoryFilter.value = Category.empty;
                       },
                       icon: const Icon(Icons.close),
                     ),
             )
           ],
-          bottom: PreferredSize(
-            child: ValueListenableBuilder<Category>(
-              valueListenable: _categoryFilter,
-              builder: (context, value, child) => value.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: BlocBuilder<CategoryCubit, CategoryState>(
-                        buildWhen: (previous, current) =>
-                            previous.categories != current.categories,
-                        builder: (context, state) {
-                          if (state.isLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            if (state.categories.isEmpty) {
-                              return nil;
-                            } else {
-                              return SearchCategoryList(
-                                categories: state.categories,
-                                categoryFilter: _categoryFilter,
-                                searchPreference: SearchPreference.income,
-                              );
-                            }
-                          }
-                        },
-                      ),
-                    )
-                  : nil,
-            ),
-            preferredSize:
-                Size.fromHeight(MediaQuery.of(context).size.height * 0.045),
-          ),
         ),
         body: ValueListenableBuilder<bool>(
           valueListenable: _isSearchEmpty,

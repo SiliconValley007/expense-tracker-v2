@@ -4,7 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:extensions/extensions.dart';
-import 'package:final_year_project_v2/screens/transaction/data_carrier/data_carrier.dart';
+
+import '../data_carrier/data_carrier.dart';
 
 part 'expense_state.dart';
 
@@ -98,4 +99,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   void deleteExpense({required String expenseId}) async =>
       await _expenseRepository.deleteExpense(expenseId: expenseId);
+
+  void deleteExpenseByCategoryName({required String categoryName}) async =>
+      await _expenseRepository.deleteExpensesByCategory(categoryName: categoryName);
 }

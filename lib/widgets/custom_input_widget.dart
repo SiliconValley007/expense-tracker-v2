@@ -15,6 +15,7 @@ class CustomInputWidget extends StatelessWidget {
     this.obscureText = false,
     this.onChanged,
     this.inputFormatters,
+    this.suffix,
   })  : _controller = controller,
         super(key: key);
 
@@ -29,6 +30,7 @@ class CustomInputWidget extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final Widget? suffix;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class CustomInputWidget extends StatelessWidget {
             icon,
             color: _theme.iconTheme.color,
           ),
+          suffixIcon: suffix,
           border: InputBorder.none,
           hintText: hintText,
           hintStyle: TextStyle(

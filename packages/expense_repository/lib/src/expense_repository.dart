@@ -121,6 +121,17 @@ class ExpenseRepository {
     return await _collectionReference.doc(expenseId).update(expense.toMap());
   }
 
+  Future<void> deleteExpensesByCategory({required String categoryName}) async {
+    _collectionReference
+        .where('category', isEqualTo: categoryName)
+        .get()
+        .then((querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await _collectionReference.doc(doc.id).delete();
+      }
+    });
+  }
+
   Future<void> deleteExpense({required String expenseId}) async {
     return await _collectionReference.doc(expenseId).delete();
   }

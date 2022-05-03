@@ -16,6 +16,7 @@ class CustomRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData _theme = Theme.of(context);
     return Padding(
       padding: padding,
       child: GestureDetector(
@@ -23,7 +24,14 @@ class CustomRadioButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(buttonText),
+            Text(
+              buttonText,
+              style: TextStyle(
+                color: _theme.primaryColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.0,
+              ),
+            ),
             Container(
               height: 30,
               width: 30,
@@ -31,7 +39,7 @@ class CustomRadioButton extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: _theme.primaryColor,
                   width: 2,
                 ),
               ),
@@ -41,7 +49,7 @@ class CustomRadioButton extends StatelessWidget {
                       width: 15,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Theme.of(context).primaryColor,
+                        color: _theme.primaryColor,
                       ),
                     )
                   : null,

@@ -7,10 +7,20 @@ class EditScreenArguments {
   final Income? income;
   final String transactionID;
 
-  EditScreenArguments({
+  const EditScreenArguments({
     this.isExpense = true,
     this.expense,
     this.income,
     this.transactionID = '',
+  });
+}
+
+class GraphScreenArguments {
+  final Map<DateTime, double> last7DaysTransactions;
+  final double last7DaysMaxTransaction;
+
+  const GraphScreenArguments({
+    required this.last7DaysTransactions,
+    required this.last7DaysMaxTransaction,
   });
 }

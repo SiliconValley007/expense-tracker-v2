@@ -102,18 +102,18 @@ class IncomeRepository {
             }).toList());
   }
 
-  Future<List<Map<String, double>>> getIncomeTotalByCategory(
-      {required String category}) async {
-    final result =
-        await _collectionReference.where('category', isEqualTo: category).get();
-    return result.docs
-        .map((income) => {
-              category: Income.fromMap(income.data() as Map<String, dynamic>,
-                      id: income.id)
-                  .income
-            })
-        .toList();
-  }
+  // Future<List<Map<String, double>>> getIncomeTotalByCategory(
+  //     {required String category}) async {
+  //   final result =
+  //       await _collectionReference.where('category', isEqualTo: category).get();
+  //   return result.docs
+  //       .map((income) => {
+  //             category: Income.fromMap(income.data() as Map<String, dynamic>,
+  //                     id: income.id)
+  //                 .income
+  //           })
+  //       .toList();
+  // }
 
   Future<void> updateIncome(
       {required Income income, required String incomeId}) async {

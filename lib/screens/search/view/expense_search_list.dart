@@ -1,7 +1,7 @@
 import 'package:category_repository/category_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../../constants/constants.dart';
+import '../../screens.dart';
+import '../../../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nil/nil.dart';

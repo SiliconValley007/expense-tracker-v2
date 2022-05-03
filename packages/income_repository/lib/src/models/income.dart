@@ -9,8 +9,6 @@ class Income extends Equatable {
   final double income;
   final DateTime date;
   final DateTime createdAt;
-  final String category;
-  final int categoryColor;
   final List<String> searchParams;
 
   const Income({
@@ -20,8 +18,6 @@ class Income extends Equatable {
     required this.income,
     required this.date,
     required this.createdAt,
-    this.category = '',
-    this.categoryColor = 0,
     required this.searchParams,
   });
 
@@ -34,8 +30,6 @@ class Income extends Equatable {
       income,
       date,
       createdAt,
-      category,
-      categoryColor,
       searchParams,
     ];
   }
@@ -47,8 +41,6 @@ class Income extends Equatable {
     double? income,
     DateTime? date,
     DateTime? createdAt,
-    String? category,
-    int? categoryColor,
     List<String>? searchParams,
   }) {
     return Income(
@@ -58,8 +50,6 @@ class Income extends Equatable {
       income: income ?? this.income,
       date: date ?? this.date,
       createdAt: createdAt ?? this.createdAt,
-      category: category ?? this.category,
-      categoryColor: categoryColor ?? this.categoryColor,
       searchParams: searchParams ?? this.searchParams,
     );
   }
@@ -71,8 +61,6 @@ class Income extends Equatable {
       'income': income,
       'date': DateTime(date.year, date.month, date.day).millisecondsSinceEpoch,
       'createdAt': DateTime(createdAt.year, createdAt.month, createdAt.day).millisecondsSinceEpoch,
-      'category': category,
-      'categoryColor': categoryColor,
       'searchParams': searchParams,
     };
   }
@@ -85,8 +73,6 @@ class Income extends Equatable {
       income: map['income']?.toDouble() ?? 0.0,
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      category: map['category'] ?? '',
-      categoryColor: map['categoryColor']?.toInt() ?? 0,
       searchParams: List<String>.from(map['searchParams']),
     );
   }
@@ -97,6 +83,6 @@ class Income extends Equatable {
 
   @override
   String toString() {
-    return 'Income(id: $id, title: $title, description: $description, income: $income, date: $date, createdAt: $createdAt, category: $category, categoryColor: $categoryColor, searchParams: $searchParams)';
+    return 'Income(id: $id, title: $title, description: $description, income: $income, date: $date, createdAt: $createdAt, searchParams: $searchParams)';
   }
 }

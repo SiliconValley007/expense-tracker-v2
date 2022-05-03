@@ -1,5 +1,5 @@
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../screens.dart';
+import '../../../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

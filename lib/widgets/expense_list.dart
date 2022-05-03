@@ -1,13 +1,14 @@
 import 'package:expense_repository/expense_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/core/core.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nil/nil.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:extensions/extensions.dart';
+
+import '../constants/constants.dart';
+import '../core/core.dart';
+import 'widgets.dart';
 
 class ExpenseList extends StatefulWidget {
   const ExpenseList({
@@ -103,23 +104,71 @@ class _ExpenseListState extends State<ExpenseList> {
                 if (widget.isSearch) {
                   return nil;
                 } else {
-                  return Stack(
-                    children: [
-                      FlipCardChart(
-                        front: TransactionsPieChart(
-                            last7DaysTransactions: widget.last7DaysExpenses),
-                        back: TransactionsBarChart(
-                          last7DaysTransactions: widget.last7DaysExpenses,
-                          maxTransactionAmount: widget.last7DaysMaxExpense,
-                        ),
+                  return Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          'Total: ${widget.expenseTotal.toStringAsFixed(2)}',
+                      borderRadius: BorderRadius.circular(15.0),
+                      gradient: const RadialGradient(
+                        center: Alignment.topLeft,
+                        radius: 7,
+                        colors: [
+                          Colors.redAccent,
+                          Colors.orangeAccent,
+                          Colors.yellowAccent,
+                        ],
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        if (widget.last7DaysMaxExpense > 0.0)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                graphView,
+                                arguments: GraphScreenArguments(
+                                  last7DaysTransactions: widget.last7DaysExpenses,
+                                  last7DaysMaxTransaction: widget.last7DaysMaxExpense,
+                                ),
+                              ),
+                              icon: const Icon(Icons.auto_graph),
+                              color: Colors.white,
+                            ),
+                          ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Expense Total',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Text(
+                                  '\u{20B9} ${widget.expenseTotal.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   );
                 }
               }
@@ -211,7 +260,7 @@ class _ExpenseListState extends State<ExpenseList> {
                             onPressed: () => Navigator.pushNamed(
                               context,
                               edit,
-                              arguments: EditScreenArguments(),
+                              arguments: const EditScreenArguments(),
                             ),
                             child: const Icon(Icons.add),
                           )

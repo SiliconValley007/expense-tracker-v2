@@ -1,6 +1,6 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/authentication/authentication.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../../../constants/constants.dart';
+import '../../authentication.dart';
+import '../../../../widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,20 +17,18 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
+
+  late final ValueNotifier<bool> _isHidePassword;
 
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _isHidePassword = ValueNotifier<bool>(true);
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _isHidePassword.dispose();
     super.dispose();
   }
 
@@ -91,11 +89,25 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     const _EmailInput(),
                     const SizedBox(height: 8),
-                    const _PasswordInput(),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _isHidePassword,
+                      builder: (context, value, child) => _PasswordInput(
+                        suffix: IconButton(
+                          splashColor: Colors.transparent,
+                          onPressed: () =>
+                              _isHidePassword.value = !_isHidePassword.value,
+                          icon: Icon(
+                            value ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        obscureText: value,
+                      ),
+                    ),
                     const SizedBox(height: 40),
                     const _LoginButton(),
-                    const SizedBox(height: 15),
-                    const _GoogleLoginButton(),
+                    // const SizedBox(height: 15),
+                    // const _GoogleLoginButton(),
                     const SizedBox(height: 20),
                     _SignUpButton(
                       onPressed: widget.onSignupButtonPressed,
@@ -137,7 +149,12 @@ class _EmailInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   const _PasswordInput({
     Key? key,
+    this.suffix,
+    required this.obscureText,
   }) : super(key: key);
+
+  final Widget? suffix;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -148,9 +165,10 @@ class _PasswordInput extends StatelessWidget {
         onChanged: (password) =>
             context.read<LoginCubit>().passwordChanged(value: password),
         hintText: 'Password',
-        obscureText: true,
+        obscureText: obscureText,
         icon: Icons.lock,
         errorText: state.password.invalid ? 'invalid password' : null,
+        suffix: suffix,
       ),
     );
   }
@@ -197,53 +215,54 @@ class _OverlayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) =>
-          state.status.isSubmissionInProgress ? const OverLayScreen() : const SizedBox.shrink(),
+      builder: (context, state) => state.status.isSubmissionInProgress
+          ? const OverLayScreen()
+          : const SizedBox.shrink(),
     );
   }
 }
 
-class _GoogleLoginButton extends StatelessWidget {
-  const _GoogleLoginButton({Key? key}) : super(key: key);
+// class _GoogleLoginButton extends StatelessWidget {
+//   const _GoogleLoginButton({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => context.read<LoginCubit>().loginWithGoogle(),
-      child: Container(
-        width: double.infinity,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.0),
-          border: Border.all(
-            color: theme.primaryColor,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.g_mobiledata,
-              color: theme.primaryColor,
-            ),
-            const SizedBox(
-              width: 10.0,
-            ),
-            Text(
-              'SIGN IN WITH GOOGLE',
-              style: TextStyle(color: theme.primaryColor),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return GestureDetector(
+//       onTap: () => context.read<LoginCubit>().loginWithGoogle(),
+//       child: Container(
+//         width: double.infinity,
+//         alignment: Alignment.center,
+//         padding: const EdgeInsets.symmetric(
+//           vertical: 10.0,
+//         ),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(50.0),
+//           border: Border.all(
+//             color: theme.primaryColor,
+//             width: 2,
+//           ),
+//         ),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Icon(
+//               Icons.g_mobiledata,
+//               color: theme.primaryColor,
+//             ),
+//             const SizedBox(
+//               width: 10.0,
+//             ),
+//             Text(
+//               'SIGN IN WITH GOOGLE',
+//               style: TextStyle(color: theme.primaryColor),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _SignUpButton extends StatelessWidget {
   const _SignUpButton({Key? key, required this.onPressed}) : super(key: key);

@@ -1,10 +1,11 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/core/core.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../constants/constants.dart';
+import '../../../core/core.dart';
+import '../../../widgets/widgets.dart';
+import '../../screens.dart';
 
 class IncomeListScreen extends StatelessWidget {
   const IncomeListScreen({Key? key, required this.onPressed}) : super(key: key);

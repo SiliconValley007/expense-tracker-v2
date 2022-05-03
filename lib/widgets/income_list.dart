@@ -1,13 +1,14 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import 'package:extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:income_repository/income_repository.dart';
-import 'package:final_year_project_v2/core/core.dart';
 import 'package:nil/nil.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:extensions/extensions.dart';
+
+import '../constants/constants.dart';
+import '../core/core.dart';
+import 'widgets.dart';
 
 class IncomeList extends StatefulWidget {
   const IncomeList({
@@ -97,23 +98,72 @@ class _IncomeListState extends State<IncomeList> {
                 if (widget.isSearch) {
                   return nil;
                 } else {
-                  return Stack(
-                    children: [
-                      FlipCardChart(
-                        front: TransactionsPieChart(
-                          last7DaysTransactions: widget.last7DaysIncomes,
-                        ),
-                        back: TransactionsBarChart(
-                          last7DaysTransactions: widget.last7DaysIncomes,
-                          maxTransactionAmount: widget.last7DaysMaxIncome,
-                        ),
+                  return Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                            'Total: ${widget.incomeTotal.toStringAsFixed(2)}'),
-                      )
-                    ],
+                      borderRadius: BorderRadius.circular(15.0),
+                      gradient: const RadialGradient(
+                        center: Alignment.topLeft,
+                        radius: 7,
+                        colors: [
+                          Colors.deepPurpleAccent,
+                          Colors.blueAccent,
+                          Colors.lightBlueAccent,
+                        ],
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        if (widget.last7DaysMaxIncome > 0.0)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                graphView,
+                                arguments: GraphScreenArguments(
+                                  last7DaysTransactions: widget.last7DaysIncomes,
+                                  last7DaysMaxTransaction:
+                                      widget.last7DaysMaxIncome,
+                                ),
+                              ),
+                              icon: const Icon(Icons.auto_graph),
+                              color: Colors.white,
+                            ),
+                          ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Income Total',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 20.0),
+                                Text(
+                                  '\u{20B9} ${widget.incomeTotal.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }
               }
@@ -122,8 +172,8 @@ class _IncomeListState extends State<IncomeList> {
                 transactionTitle: _income.title,
                 transactionDate: _income.date,
                 transactionAmount: _income.income,
-                transactionCategory: _income.category,
-                transactionCategoryColor: _income.categoryColor,
+                transactionCategory: "",
+                transactionCategoryColor: 0,
                 onPressed: () => widget.isSearch
                     ? Navigator.pushReplacementNamed(
                         context,
@@ -204,7 +254,8 @@ class _IncomeListState extends State<IncomeList> {
                         onPressed: () => Navigator.pushNamed(
                           context,
                           edit,
-                          arguments: EditScreenArguments(isExpense: false),
+                          arguments:
+                              const EditScreenArguments(isExpense: false),
                         ),
                         child: const Icon(Icons.add),
                       )

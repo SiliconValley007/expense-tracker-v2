@@ -1,8 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:final_year_project_v2/screens/authentication/signup/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
+
+import '../signup.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key, this.onLoginButtonPressed}) : super(key: key);

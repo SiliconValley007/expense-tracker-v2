@@ -1,17 +1,36 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/authentication/authentication.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../../../constants/constants.dart';
+import '../../authentication.dart';
+import '../../../../widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:nil/nil.dart';
 
-class SignupForm extends StatelessWidget {
+class SignupForm extends StatefulWidget {
   const SignupForm({Key? key, required this.onLoginButtonPressed})
       : super(key: key);
 
   final VoidCallback? onLoginButtonPressed;
+
+  @override
+  State<SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<SignupForm> {
+  late final ValueNotifier<bool> _isHidePassword;
+
+  @override
+  void initState() {
+    super.initState();
+    _isHidePassword = ValueNotifier<bool>(true);
+  }
+
+  @override
+  void dispose() {
+    _isHidePassword.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +91,26 @@ class SignupForm extends StatelessWidget {
                     const SizedBox(height: 16),
                     const _EmailInput(),
                     const SizedBox(height: 16),
-                    const _PasswordInput(),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _isHidePassword,
+                      builder: (context, value, child) => _PasswordInput(
+                        suffix: IconButton(
+                          splashColor: Colors.transparent,
+                          onPressed: () =>
+                              _isHidePassword.value = !_isHidePassword.value,
+                          icon: Icon(
+                            value ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        obscureText: value,
+                      ),
+                    ),
                     const SizedBox(height: 30),
                     const _SignupButton(),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     _LoginButton(
-                      onPressed: onLoginButtonPressed,
+                      onPressed: widget.onLoginButtonPressed,
                     )
                   ],
                 ),
@@ -116,7 +149,12 @@ class _EmailInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   const _PasswordInput({
     Key? key,
+    this.suffix,
+    required this.obscureText,
   }) : super(key: key);
+
+  final Widget? suffix;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +165,10 @@ class _PasswordInput extends StatelessWidget {
         onChanged: (password) =>
             context.read<SignupCubit>().passwordChanged(value: password),
         hintText: 'Password',
-        obscureText: true,
+        obscureText: obscureText,
         icon: Icons.lock,
         errorText: state.password.invalid ? 'invalid password' : null,
+        suffix: suffix,
       ),
     );
   }

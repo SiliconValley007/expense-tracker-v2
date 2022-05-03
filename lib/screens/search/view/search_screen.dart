@@ -1,5 +1,5 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/search/view/view.dart';
+import '../../../constants/constants.dart';
+import 'view.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {

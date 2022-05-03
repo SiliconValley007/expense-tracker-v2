@@ -1,6 +1,7 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:extensions/extensions.dart';
+import 'package:flutter/material.dart';
+
+import '../constants/constants.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({

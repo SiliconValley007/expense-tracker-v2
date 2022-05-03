@@ -1,5 +1,6 @@
-import 'package:final_year_project_v2/screens/screens.dart';
 import 'package:flutter/material.dart';
+
+import '../screens.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -15,16 +16,19 @@ class AuthenticationScreen extends StatefulWidget {
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   late final PageController _pageController;
+  late final ValueNotifier<bool> _isHidePassword;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _isHidePassword = ValueNotifier<bool>(true);
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _isHidePassword.dispose();
     super.dispose();
   }
 

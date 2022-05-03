@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 const String home = '/';
@@ -7,9 +8,14 @@ const String signup = '/signup';
 const String authentication = '/authentication';
 const String edit = '/edit';
 const String settings = '/settings';
+const String graphView = '/graph-view';
 const String changeTheme = '/change-theme';
 const String search = '/search';
 const String categoryList = '/category-list';
+
+TextTheme appTextTheme(BuildContext context) => GoogleFonts.robotoTextTheme(
+      Theme.of(context).textTheme,
+    );
 
 ThemeData light = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -41,14 +47,14 @@ ThemeData dark = ThemeData(
 
 const List<Color> categoryColors = [
   Color(0xffabc4ff),
-  Color(0xffd1d1d1),
+  Color.fromARGB(255, 233, 12, 12),
   Color(0xffffc09f),
   Color(0xffffee93),
-  Color(0xfffcf5c7),
+  Color.fromARGB(255, 176, 221, 13),
   Color(0xffadf7b6),
   Color(0xff809bce),
-  Color(0xffeac4d5),
-  Color(0xfffb6f92),
+  Color.fromARGB(255, 206, 67, 130),
+  Color.fromARGB(255, 130, 57, 75),
   Color(0xffff686b),
   Color(0xff6e78ff),
   Color(0xff70d6ff),
@@ -56,14 +62,13 @@ const List<Color> categoryColors = [
 ];
 
 const Map<String, Color> chartWeekDayColors = {
-  'Sunday':  Color(0xff70d6ff),
+  'Sunday': Color(0xff70d6ff),
   'Saturday': Color(0xffffd670),
   'Friday': Color(0xffff686b),
   'Thursday': Color(0xffadf7b6),
   'Wednesday': Color(0xffabc4ff),
   'Tuesday': Color(0xffffc09f),
   'Monday': Color(0xfffb6f92),
-
 };
 
 String dateTimeToString(DateTime? dateTime) =>

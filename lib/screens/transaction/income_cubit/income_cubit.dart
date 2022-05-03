@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:final_year_project_v2/screens/transaction/data_carrier/data_carrier.dart';
-import 'package:income_repository/income_repository.dart';
 import 'package:extensions/extensions.dart';
+import 'package:income_repository/income_repository.dart';
+
+import '../data_carrier/data_carrier.dart';
 
 part 'income_state.dart';
 
@@ -74,15 +75,15 @@ class IncomeCubit extends Cubit<IncomeState> {
     return MaxDataMap(dataMap: transactions, maxValue: max);
   }
 
-  void getIncomeTotalByCategory({required String categoryName}) async {
-    final List<Map<String, double>> _incomes = await _incomeRepository
-        .getIncomeTotalByCategory(category: categoryName);
-    double temp = 0;
-    for (Map<String, double> income in _incomes) {
-      temp += income[categoryName] ?? 0;
-    }
-    emit(state.copyWith(incomeCategoryTotal: {categoryName: temp}));
-  }
+  // void getIncomeTotalByCategory({required String categoryName}) async {
+  //   final List<Map<String, double>> _incomes = await _incomeRepository
+  //       .getIncomeTotalByCategory(category: categoryName);
+  //   double temp = 0;
+  //   for (Map<String, double> income in _incomes) {
+  //     temp += income[categoryName] ?? 0;
+  //   }
+  //   emit(state.copyWith(incomeCategoryTotal: {categoryName: temp}));
+  // }
 
   void addIncome({required Income income}) async =>
       await _incomeRepository.addIncome(income: income);

@@ -1,18 +1,35 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:final_year_project_v2/app.dart';
-import 'package:final_year_project_v2/authentication/authentication.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
+import 'package:final_year_project_v2/configurations/configurations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:user_repository/user_repository.dart';
 
+import 'app.dart';
+import 'authentication/authentication.dart';
+import 'constants/constants.dart';
+import 'screens/screens.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    final Configurations _configurations = Configurations();
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: _configurations.apiKey,
+        authDomain: _configurations.authDomain,
+        storageBucket: _configurations.storageBucket,
+        appId: _configurations.appId,
+        messagingSenderId: _configurations.messagingSenderId,
+        projectId: _configurations.projectId,
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository(firebaseAuth: _firebaseAuth);
@@ -86,9 +103,10 @@ class AppView extends StatelessWidget {
         builder: (context, state) {
       if (state.authenticationStatus == AuthenticationStatus.loading) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.system,
-          theme: light,
-          darkTheme: dark,
+          theme: light.copyWith(textTheme: appTextTheme(context)),
+          darkTheme: dark.copyWith(textTheme: appTextTheme(context)),
           home: Scaffold(
             body: Center(
               child: Lottie.asset('assets/lottie/transaction-process.json'),
@@ -103,9 +121,10 @@ class AppView extends StatelessWidget {
         );
       } else {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.system,
-          theme: light,
-          darkTheme: dark,
+          theme: light.copyWith(textTheme: appTextTheme(context)),
+          darkTheme: dark.copyWith(textTheme: appTextTheme(context)),
           home: const AuthenticationScreen(),
         );
       }

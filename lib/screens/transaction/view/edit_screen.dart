@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:category_repository/category_repository.dart';
 import 'package:expense_repository/expense_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/core/arguments.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import '../../../constants/constants.dart';
+import '../../../core/arguments.dart';
+import '../../screens.dart';
+import '../../../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,9 +90,7 @@ class _EditScreenState extends State<EditScreen>
       _titleController.text = _userIncome!.title;
       _currentTransactionDate = _userIncome!.date;
       _dateController.text = dateTimeToString(_currentTransactionDate);
-      _currentTransactionCategory.value = _userIncome!.category;
       _descriptionController.text = _userIncome!.description;
-      _currentTransactionCategoryColor.value = _userIncome!.categoryColor;
     } else if (_isUserExpense && _userExpense != null) {
       _amountController.text = _userExpense!.expense.toString();
       _titleController.text = _userExpense!.title;
@@ -302,59 +300,86 @@ class _EditScreenState extends State<EditScreen>
                   SizedBox(
                     height: _size.height * 0.02,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Choose a Category',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                          letterSpacing: 1,
-                        ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _isExpense,
+                    builder: (context, value, child) => AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      switchInCurve: Curves.easeOut,
+                      switchOutCurve: Curves.easeOut,
+                      transitionBuilder: (child, animation) => SizeTransition(
+                        sizeFactor: animation,
+                        child: child,
                       ),
-                      InkWell(
-                        onTap: () => showCategoryAddDialog(
-                          context: context,
-                          categoryNameController: _categoryController,
-                          categoryBudgetController: _categoryBudgetController,
-                          selectedColor: _selectedColor,
-                          currentCategoryNames: _currentCategoryNames,
-                          currentCategoryColors: _currentCategoryColors,
-                        ),
-                        child: const Icon(Icons.add),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  BlocBuilder<CategoryCubit, CategoryState>(
-                    buildWhen: (previous, current) =>
-                        previous.categories != current.categories,
-                    builder: (context, state) {
-                      if (state.isLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        if (state.categories.isEmpty) {
-                          return const Center(
-                            child: Text('No Categories'),
-                          );
-                        } else {
-                          return _CategoryList(
-                            categories: state.categories,
-                            currentTransactionCategory:
-                                _currentTransactionCategory,
-                            currentTransactionCategoryColor:
-                                _currentTransactionCategoryColor,
-                            categoryNames: _currentCategoryNames,
-                            categoryColors: _currentCategoryColors,
-                          );
-                        }
-                      }
-                    },
+                      child: value
+                          ? Column(
+                              key: const ValueKey('Add expense category'),
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Choose a Category',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).primaryColor,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () => showCategoryAddDialog(
+                                        context: context,
+                                        categoryNameController:
+                                            _categoryController,
+                                        categoryBudgetController:
+                                            _categoryBudgetController,
+                                        selectedColor: _selectedColor,
+                                        currentCategoryNames:
+                                            _currentCategoryNames,
+                                        currentCategoryColors:
+                                            _currentCategoryColors,
+                                      ),
+                                      child: const Icon(Icons.add),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                BlocBuilder<CategoryCubit, CategoryState>(
+                                  buildWhen: (previous, current) =>
+                                      previous.categories != current.categories,
+                                  builder: (context, state) {
+                                    if (state.isLoading) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      if (state.categories.isEmpty) {
+                                        return const Center(
+                                          child: Text('No Categories'),
+                                        );
+                                      } else {
+                                        return _CategoryList(
+                                          categories: state.categories,
+                                          currentTransactionCategory:
+                                              _currentTransactionCategory,
+                                          currentTransactionCategoryColor:
+                                              _currentTransactionCategoryColor,
+                                          categoryNames: _currentCategoryNames,
+                                          categoryColors:
+                                              _currentCategoryColors,
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(
+                              key: ValueKey('remove category'),
+                            ),
+                    ),
                   ),
                   SizedBox(
                     height: _size.height * 0.04,
@@ -390,12 +415,19 @@ class _EditScreenState extends State<EditScreen>
                                 ),
                               ),
                         IconButton(
-                          onPressed: () {
-                            (_userIncome != null)
-                                ? _incomeCubit.deleteIncome(
-                                    incomeId: _userIncome!.id)
-                                : _expenseCubit.deleteExpense(
-                                    expenseId: _userExpense!.id);
+                          onPressed: () async {
+                            await showTransactionDeleteDialog(
+                              context: context,
+                              isExpense: _userIncome == null,
+                              onConfirmPressed: () {
+                                (_userIncome != null)
+                                    ? _incomeCubit.deleteIncome(
+                                        incomeId: _userIncome!.id)
+                                    : _expenseCubit.deleteExpense(
+                                        expenseId: _userExpense!.id);
+                                Navigator.of(context).pop();
+                              },
+                            );
                             Navigator.of(context).pop();
                           },
                           icon: const Icon(
@@ -517,8 +549,6 @@ class _EditScreenState extends State<EditScreen>
               income: double.parse(_amountController.text),
               date: _currentTransactionDate,
               createdAt: DateTime.now(),
-              category: _currentTransactionCategory.value,
-              categoryColor: _currentTransactionCategoryColor.value,
               searchParams: setSearchParam(_titleController.text),
             ),
           );
@@ -546,8 +576,6 @@ class _EditScreenState extends State<EditScreen>
               income: double.parse(_amountController.text),
               date: _currentTransactionDate,
               createdAt: _userIncome!.createdAt,
-              category: _currentTransactionCategory.value,
-              categoryColor: _currentTransactionCategoryColor.value,
               searchParams: setSearchParam(_titleController.text),
             ),
             incomeId: _userIncome!.id,

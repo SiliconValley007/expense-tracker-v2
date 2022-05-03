@@ -1,7 +1,8 @@
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/core/arguments.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
 import 'package:flutter/material.dart';
+
+import '../constants/constants.dart';
+import '../core/arguments.dart';
+import '../screens/screens.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
@@ -16,12 +17,13 @@ class AppRouter {
         return SignupScreen.route();
       case edit:
         return EditScreen.route(
-            arguments: (routeSettings.arguments ?? EditScreenArguments()) as EditScreenArguments);
+            arguments: (routeSettings.arguments ?? EditScreenArguments())
+                as EditScreenArguments);
       case search:
         return SearchScreen.route(
             searchPreference: routeSettings.arguments as SearchPreference);
-      /*case settings:
-        return SettingsScreen.route();*/
+      case graphView:
+        return GraphViewScreen.route(graphScreenArguments: routeSettings.arguments as GraphScreenArguments);
       case changeTheme:
         return ThemeChanger.route();
       case categoryList:

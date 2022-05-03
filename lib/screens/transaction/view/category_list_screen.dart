@@ -1,7 +1,9 @@
 import 'package:category_repository/category_repository.dart';
-import 'package:final_year_project_v2/constants/constants.dart';
-import 'package:final_year_project_v2/screens/screens.dart';
-import 'package:final_year_project_v2/widgets/widgets.dart';
+import 'package:flutter/rendering.dart';
+import 'package:nil/nil.dart';
+import '../../../constants/constants.dart';
+import '../../screens.dart';
+import '../../../widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,24 +24,35 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   final List<String> _categoryNames = [];
   final List<Color> _categoryColors = [];
 
+  late final ScrollController _controller;
+
   late final TextEditingController _categoryNameController;
   late final TextEditingController _categoryBudgetController;
 
   late final ValueNotifier<Color> _selectedColor;
+  late final ValueNotifier<bool> _isFabVisible;
 
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
     _categoryNameController = TextEditingController();
     _categoryBudgetController = TextEditingController();
     _selectedColor = ValueNotifier<Color>(Colors.transparent);
+    _isFabVisible = ValueNotifier<bool>(true);
+    _controller.addListener(() {
+      _isFabVisible.value =
+          _controller.position.userScrollDirection == ScrollDirection.forward;
+    });
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     _categoryNameController.dispose();
     _categoryBudgetController.dispose();
     _selectedColor.dispose();
+    _isFabVisible.dispose();
     super.dispose();
   }
 
@@ -67,35 +80,35 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 20.0,
-          ),
-          child: BlocBuilder<CategoryCubit, CategoryState>(
-            buildWhen: (previous, current) =>
-                previous.categories != current.categories,
-            builder: (context, state) => _CategoryList(
-              categories: state.categories,
-              categoryColor: _categoryColors,
-              categoryNames: _categoryNames,
-              categoryNameController: _categoryNameController,
-              categoryBudgetController: _categoryBudgetController,
-              selectedColor: _selectedColor,
-            ),
+        child: BlocBuilder<CategoryCubit, CategoryState>(
+          buildWhen: (previous, current) =>
+              previous.categories != current.categories,
+          builder: (context, state) => _CategoryList(
+            categories: state.categories,
+            categoryColor: _categoryColors,
+            categoryNames: _categoryNames,
+            controller: _controller,
+            categoryNameController: _categoryNameController,
+            categoryBudgetController: _categoryBudgetController,
+            selectedColor: _selectedColor,
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showCategoryAddDialog(
-          context: context,
-          categoryNameController: _categoryNameController,
-          categoryBudgetController: _categoryBudgetController,
-          selectedColor: _selectedColor,
-          currentCategoryNames: _categoryNames,
-          currentCategoryColors: _categoryColors,
-        ),
-        child: const Icon(Icons.add),
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: _isFabVisible,
+        builder: (context, value, child) => value
+            ? FloatingActionButton(
+                onPressed: () => showCategoryAddDialog(
+                  context: context,
+                  categoryNameController: _categoryNameController,
+                  categoryBudgetController: _categoryBudgetController,
+                  selectedColor: _selectedColor,
+                  currentCategoryNames: _categoryNames,
+                  currentCategoryColors: _categoryColors,
+                ),
+                child: const Icon(Icons.add),
+              )
+            : nil,
       ),
     );
   }
@@ -107,6 +120,7 @@ class _CategoryList extends StatelessWidget {
     required this.categories,
     required this.categoryNames,
     required this.categoryColor,
+    required this.controller,
     required this.categoryNameController,
     required this.categoryBudgetController,
     required this.selectedColor,
@@ -115,6 +129,7 @@ class _CategoryList extends StatelessWidget {
   final List<Category> categories;
   final List<String> categoryNames;
   final List<Color> categoryColor;
+  final ScrollController controller;
   final TextEditingController categoryNameController;
   final TextEditingController categoryBudgetController;
   final ValueNotifier<Color> selectedColor;
@@ -129,13 +144,11 @@ class _CategoryList extends StatelessWidget {
       );
     } else {
       return ListView.separated(
+        controller: controller,
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final Category _category = categories[index];
           updateCurrentCategory(_category);
-          context
-              .read<IncomeCubit>()
-              .getIncomeTotalByCategory(categoryName: _category.name);
           context
               .read<ExpenseCubit>()
               .getExpenseTotalByCategory(categoryName: _category.name);
@@ -143,7 +156,7 @@ class _CategoryList extends StatelessWidget {
             categoryName: _category.name,
             categoryColor: _category.color,
             categoryBudget: _category.budget,
-            onPressed: () => showCategoryAddDialog(
+            onPressedUpdate: () => showCategoryAddDialog(
               categoryObject: _category,
               context: context,
               categoryNameController: categoryNameController,
@@ -152,6 +165,13 @@ class _CategoryList extends StatelessWidget {
               currentCategoryNames: categoryNames,
               currentCategoryColors: categoryColor,
             ),
+            onPressedDelete: _category == Category.empty
+                ? () {}
+                : () => showCategoryDeleteDialog(
+                      context: context,
+                      categoryId: _category.id,
+                      categoryName: _category.name,
+                    ),
           );
         },
         separatorBuilder: (context, index) => const SizedBox(

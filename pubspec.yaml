@@ -45,6 +45,7 @@ dependencies:
   form_inputs:
     path: packages/form_inputs
   formz: ^0.4.1
+  google_fonts: ^2.3.2
   hydrated_bloc: ^8.0.0
   income_repository:
     path: packages/income_repository
@@ -58,9 +59,15 @@ dependencies:
     path: packages/user_repository
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.2
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
