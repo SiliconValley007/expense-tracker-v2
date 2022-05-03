@@ -491,17 +491,21 @@ class _EditScreenState extends State<EditScreen>
                                     vertical: 15.0,
                                   ),
                                 ),
-                                child: Text(
-                                  (_userExpense != null || _userIncome != null)
-                                      ? _isExpense.value
-                                          ? "Update Expense"
-                                          : "Update Income"
-                                      : _isExpense.value
-                                          ? "Save Expense"
-                                          : "Save Income",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).primaryColor,
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable: _isExpense,
+                                  builder: (context, value, child) => Text(
+                                    (_userExpense != null ||
+                                            _userIncome != null)
+                                        ? value
+                                            ? "Update Expense"
+                                            : "Update Income"
+                                        : value
+                                            ? "Save Expense"
+                                            : "Save Income",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
                                 ),
                               )

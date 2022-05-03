@@ -17,13 +17,15 @@ class AppRouter {
         return SignupScreen.route();
       case edit:
         return EditScreen.route(
-            arguments: (routeSettings.arguments ?? EditScreenArguments())
+            arguments: (routeSettings.arguments ?? const EditScreenArguments())
                 as EditScreenArguments);
       case search:
         return SearchScreen.route(
             searchPreference: routeSettings.arguments as SearchPreference);
       case graphView:
-        return GraphViewScreen.route(graphScreenArguments: routeSettings.arguments as GraphScreenArguments);
+        return GraphViewScreen.route(
+            graphScreenArguments:
+                routeSettings.arguments as GraphScreenArguments);
       case changeTheme:
         return ThemeChanger.route();
       case categoryList:
