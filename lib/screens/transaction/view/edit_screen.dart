@@ -426,9 +426,9 @@ class _EditScreenState extends State<EditScreen>
                                     : _expenseCubit.deleteExpense(
                                         expenseId: _userExpense!.id);
                                 Navigator.of(context).pop();
+                                Navigator.of(context).pop();
                               },
                             );
-                            Navigator.of(context).pop();
                           },
                           icon: const Icon(
                             Icons.delete,

@@ -8,11 +8,17 @@ Future showTransactionDeleteDialog({
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(isExpense ? 'Delete Expense' : 'Delete Income'),
-        content: const Text(
+        title: Text(
+          isExpense ? 'Delete Expense' : 'Delete Income',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        content: Text(
           'Are you sure you want to delete this transaction?',
           style: TextStyle(
             fontWeight: FontWeight.w700,
+            color: Theme.of(context).primaryColor,
           ),
         ),
         actions: [

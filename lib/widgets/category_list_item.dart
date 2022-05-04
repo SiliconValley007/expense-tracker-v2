@@ -72,17 +72,19 @@ class CategoryListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Total budget: ',
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 18.0,
+                          color: _theme.primaryColor,
                         ),
                       ),
                       Text(
                         MoneyFormat(categoryBudget).toMoney(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
+                          color: _theme.primaryColor,
                         ),
                       ),
                     ],
@@ -91,19 +93,21 @@ class CategoryListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Total expense: ',
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 18.0,
+                          color: _theme.primaryColor,
                         ),
                       ),
                       Text(
                         MoneyFormat(
                                 state.expenseCategoryTotal[categoryName] ?? 0)
                             .toMoney(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
+                          color: _theme.primaryColor,
                         ),
                       ),
                     ],
@@ -112,11 +116,12 @@ class CategoryListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Budget left: ',
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 18.0,
+                          color: _theme.primaryColor,
                         ),
                       ),
                       Text(
@@ -129,8 +134,9 @@ class CategoryListItem extends StatelessWidget {
                                     (state.expenseCategoryTotal[categoryName] ??
                                         0))
                                 .toMoney(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
+                          color: _theme.primaryColor,
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,

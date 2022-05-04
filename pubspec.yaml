@@ -46,7 +46,6 @@ dependencies:
     path: packages/form_inputs
   formz: ^0.4.1
   google_fonts: ^2.3.2
-  hydrated_bloc: ^8.0.0
   income_repository:
     path: packages/income_repository
   intl: ^0.17.0

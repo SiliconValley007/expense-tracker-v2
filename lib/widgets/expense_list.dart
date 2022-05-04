@@ -132,8 +132,10 @@ class _ExpenseListState extends State<ExpenseList> {
                                 context,
                                 graphView,
                                 arguments: GraphScreenArguments(
-                                  last7DaysTransactions: widget.last7DaysExpenses,
-                                  last7DaysMaxTransaction: widget.last7DaysMaxExpense,
+                                  last7DaysTransactions:
+                                      widget.last7DaysExpenses,
+                                  last7DaysMaxTransaction:
+                                      widget.last7DaysMaxExpense,
                                 ),
                               ),
                               icon: const Icon(Icons.auto_graph),
@@ -227,16 +229,6 @@ class _ExpenseListState extends State<ExpenseList> {
                     ),
                   );
                 } else {
-                  /*final DateTime _currentDate = widget.expenses[index - 1].date;
-                  final DateTime _nextDate = widget.expenses[index].date;
-                  if (DateOnlyCompare(_currentDate).isSameDate(_nextDate)) {
-                    return const SizedBox.shrink();
-                  } else {
-                    if (!_scrollToPositions.contains(index)) {
-                      _scrollToPositions.add(index);
-                    }
-                    return DateSeperator(dateTime: _nextDate);
-                  }*/
                   if (_scrollToPositions.contains(index)) {
                     return DateSeperator(dateTime: widget.expenses[index].date);
                   } else {

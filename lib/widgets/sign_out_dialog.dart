@@ -7,11 +7,17 @@ Future showSignOutDialog({
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Sign out'),
-        content: const Text(
+        title: Text(
+          'Sign out',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        content: Text(
           'Are you sure you want to sign out of this account?',
           style: TextStyle(
             fontWeight: FontWeight.w400,
+            color: Theme.of(context).primaryColor,
           ),
         ),
         actions: [

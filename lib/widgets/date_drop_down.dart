@@ -24,14 +24,25 @@ class DateDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData _theme = Theme.of(context);
     return DropdownButton<String>(
       onChanged: onChanged,
       items: dateTimes()
-          .map<DropdownMenuItem<String>>((value) =>
-              DropdownMenuItem<String>(value: value, child: Text(value)))
+          .map<DropdownMenuItem<String>>((value) => DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    color: _theme.primaryColor,
+                  ),
+                ),
+              ))
           .toList(),
-      hint: const Text(
+      hint: Text(
         'Go to Date',
+        style: TextStyle(
+          color: _theme.primaryColor,
+        ),
       ),
     );
   }

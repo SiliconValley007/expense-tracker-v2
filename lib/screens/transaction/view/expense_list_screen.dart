@@ -25,12 +25,13 @@ class ExpenseListScreen extends StatelessWidget {
         centerTitle: false,
         actions: [
           IconButton(
-              onPressed: () => Navigator.pushNamed(
-                    context,
-                    search,
-                    arguments: SearchPreference.expense,
-                  ),
-              icon: const Icon(Icons.search)),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              search,
+              arguments: SearchPreference.expense,
+            ),
+            icon: const Icon(Icons.search),
+          ),
         ],
       ),
       body: SafeArea(

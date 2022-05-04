@@ -15,18 +15,24 @@ Future showCategoryDeleteDialog({
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Delete Category'),
+        title: Text(
+          'Delete Category',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Text(
               'Are you sure you want to delete this category?',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
+                color: Theme.of(context).primaryColor,
               ),
             ),
-            SizedBox(height: 10.0),
-            Text(
+            const SizedBox(height: 10.0),
+            const Text(
               'This will delete all expenses related to this category!!',
               style: TextStyle(
                 color: Colors.red,
@@ -88,7 +94,9 @@ Future showCategoryAddDialog({
     context: context,
     builder: (_) => AlertDialog(
       title: Text(
-        'Add New Category',
+        categoryObject == Category.empty
+            ? 'Add New Category'
+            : 'Update Category',
         style: TextStyle(color: Theme.of(context).primaryColor),
       ),
       content: SizedBox(
@@ -255,7 +263,7 @@ Future showCategoryAddDialog({
             Navigator.pop(context);
           },
           child: Text(
-            'Save',
+            categoryObject == Category.empty ? 'Save' : 'Update',
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 16,
