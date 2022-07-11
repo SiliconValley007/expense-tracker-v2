@@ -106,15 +106,16 @@ class _IncomeListState extends State<IncomeList> {
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(15.0),
-                      gradient: const RadialGradient(
-                        center: Alignment.topLeft,
-                        radius: 7,
-                        colors: [
-                          Colors.deepPurpleAccent,
-                          Colors.blueAccent,
-                          Colors.lightBlueAccent,
-                        ],
-                      ),
+                      // gradient: const RadialGradient(
+                      //   center: Alignment.topLeft,
+                      //   radius: 7,
+                      //   colors: [
+                      //     Colors.deepPurpleAccent,
+                      //     Colors.blueAccent,
+                      //     Colors.lightBlueAccent,
+                      //   ],
+                      // ),
+                      color: Colors.green,
                     ),
                     child: Stack(
                       children: [
@@ -126,7 +127,8 @@ class _IncomeListState extends State<IncomeList> {
                                 context,
                                 graphView,
                                 arguments: GraphScreenArguments(
-                                  last7DaysTransactions: widget.last7DaysIncomes,
+                                  last7DaysTransactions:
+                                      widget.last7DaysIncomes,
                                   last7DaysMaxTransaction:
                                       widget.last7DaysMaxIncome,
                                 ),
@@ -257,7 +259,11 @@ class _IncomeListState extends State<IncomeList> {
                           arguments:
                               const EditScreenArguments(isExpense: false),
                         ),
-                        child: const Icon(Icons.add),
+                        backgroundColor: Colors.green,
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
                       )
                     : nil),
           ),

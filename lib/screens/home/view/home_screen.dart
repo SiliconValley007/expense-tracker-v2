@@ -55,13 +55,14 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.purple, Colors.orange],
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   gradient: LinearGradient(
+      //     begin: Alignment.topLeft,
+      //     end: Alignment.bottomRight,
+      //     colors: [Colors.purple, Colors.orange],
+      //   ),
+      // ),
+      color: const Color(0xff212121),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -172,7 +173,9 @@ class _GetDrawerPage extends StatelessWidget {
       case DrawerItems.settings:
         return SettingsScreen(onPressed: onPressed);
       case DrawerItems.categories:
-        return CategoryListScreen(onPressed: onPressed,);
+        return CategoryListScreen(
+          onPressed: onPressed,
+        );
       default:
         return ExpenseListScreen(onPressed: onPressed);
     }

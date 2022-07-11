@@ -12,12 +12,14 @@ class _OverLayScreenState extends State<OverLayScreen> {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-    return Container(
-      height: _size.height,
-      width: _size.width,
-      color: Colors.black.withOpacity(0.5),
-      child: Center(
-        child: Lottie.asset('assets/lottie/loading.json'),
+    return Scaffold(
+      backgroundColor: Colors.black.withOpacity(0.5),
+      body: Center(
+        child: Lottie.asset(
+          'assets/lottie/loading.json',
+          width: _size.width * 0.2,
+          height: _size.height * 0.2,
+        ),
       ),
     );
   }

@@ -17,7 +17,6 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   late final ValueNotifier<bool> _isHidePassword;
 
   @override
@@ -138,7 +137,7 @@ class _EmailInput extends StatelessWidget {
         onChanged: (email) =>
             context.read<LoginCubit>().emailChanged(value: email),
         hintText: 'Email',
-        icon: Icons.lock,
+        icon: Icons.mail,
         keyboardType: TextInputType.emailAddress,
         errorText: state.email.invalid ? 'invalid email' : null,
       ),

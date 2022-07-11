@@ -7,17 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:nil/nil.dart';
 
-class SignupForm extends StatefulWidget {
-  const SignupForm({Key? key, required this.onLoginButtonPressed})
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({Key? key, required this.onLoginButtonPressed})
       : super(key: key);
 
   final VoidCallback? onLoginButtonPressed;
 
   @override
-  State<SignupForm> createState() => _SignupFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignupFormState extends State<SignupForm> {
+class _SignUpFormState extends State<SignUpForm> {
   late final ValueNotifier<bool> _isHidePassword;
 
   @override
@@ -138,7 +138,7 @@ class _EmailInput extends StatelessWidget {
         onChanged: (email) =>
             context.read<SignupCubit>().emailChanged(value: email),
         hintText: 'Email',
-        icon: Icons.lock,
+        icon: Icons.mail,
         keyboardType: TextInputType.emailAddress,
         errorText: state.email.invalid ? 'invalid email' : null,
       ),

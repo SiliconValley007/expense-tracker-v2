@@ -59,7 +59,7 @@ class DrawerScreen extends StatelessWidget {
                         ),
                         leading: Icon(
                           drawerItem.icon,
-                          color: Colors.white,
+                          color: Colors.green,
                         ),
                         title: Text(
                           drawerItem.title,
@@ -86,8 +86,8 @@ class DrawerScreen extends StatelessWidget {
                 child: Text(
                   'Account created on: ${state.userProfile.createdOn}',
                   style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
+                    color: Colors.grey,
+                    fontSize: 12,
                   ),
                 ),
               ),

@@ -24,7 +24,7 @@ class SignupScreen extends StatelessWidget {
             authenticationRepository: context.read<AuthenticationRepository>(),
             userRepository: context.read<UserRepository>(),
           ),
-          child: SignupForm(
+          child: SignUpForm(
             onLoginButtonPressed: onLoginButtonPressed,
           ),
         ),

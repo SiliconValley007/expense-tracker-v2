@@ -112,15 +112,16 @@ class _ExpenseListState extends State<ExpenseList> {
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(15.0),
-                      gradient: const RadialGradient(
-                        center: Alignment.topLeft,
-                        radius: 7,
-                        colors: [
-                          Colors.redAccent,
-                          Colors.orangeAccent,
-                          Colors.yellowAccent,
-                        ],
-                      ),
+                      // gradient: const RadialGradient(
+                      //   center: Alignment.topLeft,
+                      //   radius: 7,
+                      //   colors: [
+                      //     Colors.redAccent,
+                      //     Colors.orangeAccent,
+                      //     Colors.yellowAccent,
+                      //   ],
+                      // ),
+                      color: Colors.blueAccent,
                     ),
                     child: Stack(
                       children: [
@@ -254,7 +255,11 @@ class _ExpenseListState extends State<ExpenseList> {
                               edit,
                               arguments: const EditScreenArguments(),
                             ),
-                            child: const Icon(Icons.add),
+                            backgroundColor: Colors.green,
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           )
                         : nil);
               }),

@@ -19,7 +19,11 @@ class DrawerMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed,
-        icon: const FaIcon(FontAwesomeIcons.alignLeft));
+      onPressed: onPressed,
+      icon: const FaIcon(
+        FontAwesomeIcons.alignLeft,
+        color: Colors.green,
+      ),
+    );
   }
 }

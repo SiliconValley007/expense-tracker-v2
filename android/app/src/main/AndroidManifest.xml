@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.final_year_project_v2">
    <application
-        android:label="ET"
+        android:label="ExTrac"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
